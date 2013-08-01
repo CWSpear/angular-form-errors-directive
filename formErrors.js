@@ -67,10 +67,10 @@ angular.module('FormErrors', [])
                 // we can pass in a variable to keep track of form validity in page's ctrl
                 scope.isValid = ctrl.$valid;
                 scope.errors = [];
-                _.each(ctrl, function(props, elem) {
+                angular.forEach(ctrl, function(props, elem) {
                     // elem has some internal properties we don't want to iterate over
                     if(elem[0] === '$') return;
-                    _.each(props.$error, function(isInvalid, error) {
+                    angular.forEach(props.$error, function(isInvalid, error) {
                         // don't need to even try and get a a message unless it's invalid
                         if(isInvalid) {
                             scope.errors.push(formMessage(elem, error, props));
