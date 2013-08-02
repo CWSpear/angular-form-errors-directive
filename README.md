@@ -6,6 +6,10 @@ optional attribute to pass back form validity to your page's controller.
 **NOTE:** For this validation to work, you need a `name` attribute on your 
 `form` element any form (i.e. `input`, `select`, etc) elements inside the form.
 
+###Demo
+
+http://plnkr.co/edit/h9zRAMTSzhhmFmWu052v?p=preview
+
 ###Usage
 
 For basic usage, all that's needed is to place a single element inside a 
@@ -18,33 +22,35 @@ For basic usage, all that's needed is to place a single element inside a
 </form>
 ```
 
-###Options
-
-You can add an (optional) attribute, `is-valid`, and the directive will set it
-to set that variable to be `true`/`false` depending on if the form is valid or
-not.
-
-###Examples
+###Example
 
 HTML markup:
 
 ```html
-<form name="loginForm" ng-submit="submit()" class="form-horizontal">
+<form ng-class="{ 'show-errors': showErrors }" name="loginForm" ng-submit="submit()" class="form-horizontal" novalidate>
   <div class="form-group">
-    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+    <label for="inputUsername" class="col-lg-2 control-label">Username (min 5 char)</label>
     <div class="col-lg-10">
-      <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" required ng-model="user.username">
+      <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username" ng-minlength="5" required ng-model="user.username">
     </div>
   </div>
+  
   <div class="form-group">
-    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+    <label for="inputPassword" class="col-lg-2 control-label">Password (min 8 char)</label>
     <div class="col-lg-10">
       <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" ng-minlength="8" required ng-model="user.password">
-
-      <form-errors is-valid="form.isValid"></form-errors>
-
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-offset-2 col-lg-10">
       <button type="submit" class="btn btn-default">Sign in</button>
     </div>
+  </div>
+  
+  <div class="col-offset-2 col-lg-10">
+    <p>{{message}}</p>
+    <form-errors class="list-unstyled"></form-errors>
   </div>
 </form>
 ```
@@ -55,9 +61,15 @@ JavaScript (just logs if the form is valid on submit):
 var app = angular.module('plunker', ['FormErrors']);
 
 app.controller('MainCtrl', function($scope) {
-  $scope.form = { isValid: true };
+  $scope.showErrors = false;
   $scope.submit = function() {
-    console.log($scope.form.isValid);
+    if($scope.loginForm.$valid) {
+      $scope.showErrors = false;
+      $scope.message = 'Form is valid!';
+    } else {
+      $scope.showErrors = true;
+      $scope.message = 'Please correct these errors:';
+    }
   };
 });
 ```
