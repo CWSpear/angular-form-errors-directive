@@ -9,11 +9,8 @@ Because it's a lot of work to do all those inline errors and to do markup for
 *every single* error that each input can violate. And maybe it doesn't fit in
 your design to do inline errors, etc, etc.
 
-Why not just do everything (list all your errors with messages) with just a 
-single element?
-
-**NOTE:** For this validation to work, you need a `name` attribute on your 
-`form` element any form elements (i.e. `input`, `select`, etc) inside the form.
+Why not just do everything (list *all* your form's errors, with messages) with **just a 
+single element?**
 
 ###Demo
 
@@ -25,11 +22,15 @@ For basic usage, all that's needed is to place a single element inside a
 `form` element:
 
 ```javascript
-<form name="form">
-    ...
-    <form-errors></form-errors>
+<form name="form" novalidate>
+  <input type="text" name="name" required ng-model="name">
+  ...
+  <form-errors></form-errors>
 </form>
 ```
+
+**NOTE:** For this validation to work, you need a `name` attribute on your 
+`form` element any form elements (i.e. `input`, `select`, etc) inside the form.
 
 ###Example
 
