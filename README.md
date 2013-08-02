@@ -3,6 +3,15 @@
 A set of directives to make it easier to display a list of form errors with an 
 optional attribute to pass back form validity to your page's controller.
 
+####Why?
+
+Because it's a lot of work to do all those inline errors and to do markup for
+*every single* error that each input can violate. And maybe it doesn't fit in
+your design to do inline errors, etc, etc.
+
+Why not just do everything (list all your errors with messages) with just a 
+single element?
+
 **NOTE:** For this validation to work, you need a `name` attribute on your 
 `form` element any form elements (i.e. `input`, `select`, etc) inside the form.
 
