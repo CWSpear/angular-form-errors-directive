@@ -23,31 +23,27 @@ angular.module('FormErrors', [])
                     minlength: 'is too short.',
                     maxlength: 'is too long.',
                     email: 'is not a valid email address.',
-                    pattern: 'does not expect the matched pattern.',
+                    pattern: 'does not match the expected pattern.',
+                    number: 'is not a number.',
 
                     fallback: 'is invalid.'
                 },
-                // uppercase words helper
-                ucwords = function(text) {
-                    return text.replace(/^([a-z])|\s+([a-z])/g, function ($1) {
-                        return $1.toUpperCase();
-                    });
-                },
-                // breakup camelCase
-                breakup = function(text, separator) {
-                    return text.replace(/[A-Z]/g, function (match) {
-                        return separator + match;
-                    });
-                },
-                // humanize words
-                humanize = function (value) {
-                    return ucwords(breakup(value, ' ').replace(/[-_+]/g, ' '));
+                // humanize words, turning:
+                //     camelCase  --> Camel Case
+                //     dash-case  --> Dash Case
+                //     snake_case --> Snake Case
+                humanize = function (str) {
+                    return str.replace(/[-_+]/g, ' ') // turn _ and - into spaces
+                              .replace(/([A-Z])/g, ' $1') // put a splace before every capital letter
+                              .replace(/^([a-z])|\s+([a-z])/g, // capitalize the first letter of each word
+                                    function ($1) { return $1.toUpperCase(); }
+                    );
                 },
                 // this is where we form our message
-                formMessage = function formMessage(elem, error, props) {
-                    // get the nice name if used the niceName directive 
-                    // or humanize the elem name and call it good
-                    var niceName = props.$niceName || humanize(elem);
+                errorMessage = function (name, error, props) {
+                    // get the nice name if they used the niceName 
+                    // directive or humanize the name and call it good
+                    var niceName = props.$niceName || humanize(name);
 
                     // get a reason from our default set
                     var reason = defaultErrorReasons[error] || defaultErrorReasons.fallback;
@@ -67,13 +63,13 @@ angular.module('FormErrors', [])
                 // we can pass in a variable to keep track of form validity in page's ctrl
                 scope.isValid = ctrl.$valid;
                 scope.errors = [];
-                angular.forEach(ctrl, function(props, elem) {
-                    // elem has some internal properties we don't want to iterate over
-                    if(elem[0] === '$') return;
+                angular.forEach(ctrl, function(props, name) {
+                    // name has some internal properties we don't want to iterate over
+                    if(name[0] === '$') return;
                     angular.forEach(props.$error, function(isInvalid, error) {
                         // don't need to even try and get a a message unless it's invalid
                         if(isInvalid) {
-                            scope.errors.push(formMessage(elem, error, props));
+                            scope.errors.push(errorMessage(name, error, props));
                         }
                     });
                 });
