@@ -4,7 +4,7 @@ A set of directives to make it easier to display a list of form errors with an
 optional attribute to pass back form validity to your page's controller.
 
 **NOTE:** For this validation to work, you need a `name` attribute on your 
-`form` element any form (i.e. `input`, `select`, etc) elements inside the form.
+`form` element any form elements (i.e. `input`, `select`, etc) inside the form.
 
 ###Demo
 
