@@ -7,11 +7,11 @@ angular.module('FormErrors', [])
         // It does use its closest parent that is a form OR ngForm
         require: '^form',
         template:
-            '<div class="form-errors" ng-transclude>' +
-                '<div class="form-error" ng-repeat="error in errors">' +
+            '<ul class="form-errors" ng-transclude>' +
+                '<li class="form-error" ng-repeat="error in errors">' +
                     '{{error}}' +
-                '</div>' +
-            '</div>',
+                '</li>' +
+            '</ul>',
         replace: true,
         transclude: true,
         restrict: 'AE',
