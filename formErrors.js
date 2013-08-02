@@ -15,7 +15,6 @@ angular.module('FormErrors', [])
         replace: true,
         transclude: true,
         restrict: 'AE',
-        scope: { isValid: '=' },
         link: function postLink(scope, elem, attrs, ctrl) {
             // list of some default error reasons
             var defaultErrorReasons = {
@@ -49,7 +48,7 @@ angular.module('FormErrors', [])
                     var reason = defaultErrorReasons[error] || defaultErrorReasons.fallback;
 
                     // if they used the errorMessages directive, grab that message
-                    if(typeof props.$errorMessages === 'object') 
+                    if(typeof props.$errorMessages === 'object')
                         reason = props.$errorMessages[error];
                     else if(typeof props.$errorMessages === 'string')
                         reason = props.$errorMessages;
@@ -58,10 +57,9 @@ angular.module('FormErrors', [])
                     return niceName + ' ' + reason;
                 };
 
-            // only update the list of errors if there was actually a change
+            // only update the list of errors if there was actually a change in $error
             scope.$watch(function() { return ctrl.$error; }, function() {
-                // we can pass in a variable to keep track of form validity in page's ctrl
-                scope.isValid = ctrl.$valid;
+                // reset error array
                 scope.errors = [];
                 angular.forEach(ctrl, function(props, name) {
                     // name has some internal properties we don't want to iterate over
