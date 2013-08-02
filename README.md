@@ -75,7 +75,7 @@ app.controller('MainCtrl', function($scope) {
 ```
 
 If the fields are empty (which are both required), then 
-`<form-errors></form-errors>`
+`<form-errors></form-errors>` would list the fields and their errors.
 
 Demo: http://plnkr.co/edit/h9zRAMTSzhhmFmWu052v?p=preview
 
