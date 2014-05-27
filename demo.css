@@ -21,3 +21,7 @@ body {
 .btn:focus, .btn:active, .btn:focus:active { 
     outline: 0 none; 
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}

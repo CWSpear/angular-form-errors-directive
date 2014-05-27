@@ -27,7 +27,7 @@
           <button type="submit" class="btn btn-primary">Sign in</button>
         </div>
         
-        <p>{{ message }}</p>
+        <p ng-cloak ng-show="message">{{ message }}</p>
         <form-errors class="list-unstyled"></form-errors>
       </form>
     </div>
