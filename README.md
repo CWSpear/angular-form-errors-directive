@@ -8,6 +8,28 @@ Because it's a lot of work to do all those inline errors and to do markup for *e
 
 Why not just do everything (list *all* your form's errors, with messages) with **just a single element?**
 
+### Installation
+
+Install with [Bower](http://bower.io/):
+
+```bash
+bower install angular-form-errors-directive
+```
+
+Add the `formErrors.js` file to your HTML. For example:
+
+```html
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+<script src="/path/to/formErrors.js"></script>
+<script src="/path/to/your/app.js"></script>
+```
+
+Include the `FormErrors` module in your module:
+
+```javascript
+angular.module('app', ['FormErrors']);
+```
+
 ### Usage
 
 For basic usage, all that's needed is to place a single element inside a `form` element:
