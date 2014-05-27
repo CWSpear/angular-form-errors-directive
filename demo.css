@@ -1,0 +1,23 @@
+.form-error { 
+    color: #c8272a;
+}
+
+.show-errors .ng-invalid {
+    border: 1px solid #c8272a;
+}
+
+.form-errors {
+    display: none;
+}
+
+.show-errors .form-errors {
+    display: block;
+}
+
+body {
+    padding: 20px 0;
+}
+
+.btn:focus, .btn:active, .btn:focus:active { 
+    outline: 0 none; 
+}

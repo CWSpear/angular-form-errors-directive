@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>Angular Form Errors Directive</title>
+
+  <script>document.write('<base href="' + document.location + '">');</script>
+
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body ng-controller="MainCtrl">
+  <div class="container">
+    <div class="col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
+      <form ng-class="{ 'show-errors': showErrors }" name="loginForm" ng-submit="submit()" role="form" novalidate>
+        <div class="form-group">
+          <label for="inputUsername" class="control-label">Username (min 5 char)</label>
+          <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username" ng-minlength="5" required ng-model="user.username">
+        </div>
+        
+        <div class="form-group">
+          <label for="inputPassword" class="control-label">Password (min 8 char)</label>
+          <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" ng-minlength="8" required ng-model="user.password">
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+        
+        <p>{{ message }}</p>
+        <form-errors class="list-unstyled"></form-errors>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+  <script src="formErrors.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>
