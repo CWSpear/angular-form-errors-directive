@@ -1,4 +1,4 @@
-# AngularJS Form Errors Directive
+# AngularJS Form Errors Directive ![Current Version](http://img.shields.io/github/tag/CWSpear/angular-form-errors-directive.svg?style=flat)
 
 A set of directives to make it easier to display a list of form errors with an optional attribute to pass back form validity to your page's controller.
 
