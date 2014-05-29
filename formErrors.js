@@ -121,7 +121,7 @@ angular.module('FormErrors', [])
 }])
 
 // ngForm version of ngModel's niceName
-.directive('formNiceName', ['$parse', function ($parse) {
+.directive('formNiceName', [function () {
     return {
         require: 'form',
         link: function (scope, elem, attrs, ctrl) {
