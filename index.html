@@ -37,18 +37,23 @@
           
           <p ng-cloak ng-show="message">{{ message }}</p>
 
-          <p ng-show="showErrors">ngForm Errors:</p>
-          <form-errors class="list-unstyled"></form-errors>
+          <p ng-show="showErrors && !showChildren">ngForm Errors:</p>
+          <form-errors ng-hide="showChildren" class="list-unstyled"></form-errors>
         </div>
 
         <p ng-show="showErrors">Form Errors:</p>
-        <form-errors class="list-unstyled"></form-errors>
+        <form-errors show-child-errors="showChildren" class="list-unstyled"></form-errors>
 
         <div class="form-group">
           <button type="submit" class="btn btn-primary">Sign in</button>
         </div>
         
       </form>
+
+      <label>
+        <input type="checkbox" ng-model="showChildren">
+        Show all errors in the parent form's <code>form-errors</code>.
+      </label>
     </div>
   </div>
 

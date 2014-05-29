@@ -143,6 +143,8 @@ You can also pass the `error-messages` attribute a string and it will use that f
 
 You can also use this to get the errors of an embedded `ngForm`. If you place an `formErrors` directive inside an `ngForm`, it will just display the errors for the `ngForm`. On the parent `form`, it won't display the specific errors of the `ngForm`, but *will* tell you that the child form has errors. You can change the child form's name similarly to the `niceName` directive on inputs, with `formNiceName` directive on the `ngForm`.
 
+You can also set the `show-child-errors` attribute to a variable with a truthly value and instead of telling you if the child form has errors, it will just display all the errors from the child form. This will work recursively.
+
 ### Explicit Form
 
 If you don't want to place a `formErrors` directive in a specific `form`/`ngForm` (or if you want to put it in a form but show errors to a different form), you can specify a specific `form` via an attribute:
@@ -175,6 +177,7 @@ That way you don't have to pass each input an override if you use it globally. T
 
 ## Changelog
 
+- **v1.3.0** Add the ability display all the child `ngForm` errors by setting a flag.
 - **v1.2.0** Add the ability to extend/override the default error messages!
 - **v1.1.0** Fix issue with embedded forms and add new options for using an explicit form and displaying error messages about embedded forms themselves.
 - **v1.0.0** Clean up some code, make compatible with Angular 1.2.x

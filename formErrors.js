@@ -17,69 +17,97 @@ angular.module('FormErrors', [])
         restrict: 'AE',
         require: '?^form',
         // isolated scope is required so we can embed ngForms and errors
-        scope: { form: '=?form' },
+        scope: { form: '=?', recurse: '=?showChildErrors' },
         link: function postLink(scope, elem, attrs, ctrl) {
             // if we don't provide
             if (scope.form) ctrl = scope.form;
 
             if (!ctrl) throw new Error('You must either specify a "form" attr or place formErrors directive inside a form/ngForm.');
 
-            // humanize words, turning:
-            //     camelCase  --> Camel Case
-            //     dash-case  --> Dash Case
-            //     snake_case --> Snake Case
-            var humanize = function (str) {
-                return str
-                          // turn _ and - into spaces
-                          .replace(/[-_+]/g, ' ')
-                          // put a splace before every capital letter
-                          .replace(/([A-Z])/g, ' $1')
-                          // capitalize the first letter of each word
-                          .replace(/^([a-z])|\s+([a-z])/g,
-                                function ($1) { return $1.toUpperCase(); }
-                );
-            };
-            // this is where we form our message
-            var errorMessage = function (name, error, props) {
-                // get the nice name if they used the niceName 
-                // directive or humanize the name and call it good
-                var niceName = props.$niceName || humanize(name);
-
-                // if it doesn't have a $modelValue, it's an ngForm
-                if (!props.hasOwnProperty('$modelValue')) {
-                    error = 'form';
-                }
-
-                // get a message from our default set
-                var message = opts.defaultErrorMessages[error] || opts.defaultErrorMessages.fallback;
-
-                // if they used the errorMessages directive, grab that message
-                if (typeof props.$errorMessages === 'object') 
-                    message = props.$errorMessages[error];
-                else if (typeof props.$errorMessages === 'string')
-                    message = props.$errorMessages;
-
-                // return our nicely formatted message
-                return niceName + ' ' + message;
+            var getErrors = function () {
+                scope.errors = crawlErrors(ctrl, scope.recurse);
             };
 
             // only update the list of errors if there was actually a change in $error
-            scope.$watch(function () { return ctrl.$error; }, function () {
-                var errors = [];
-                angular.forEach(ctrl, function (props, name) {
-                    // name has some internal properties we don't want to iterate over
-                    if (name[0] === '$') return;
-                    angular.forEach(props.$error, function (isInvalid, error) {
-                        // don't need to even try and get a a message unless it's invalid
-                        if (isInvalid) {
-                            errors.push(errorMessage(name, error, props));
-                        }
-                    });
-                });
-                scope.errors = errors;
-            }, true);
+            scope.$watch(function () { return ctrl.$error; }, getErrors, true);
+            // or if they changed the value to show child errors for some reason
+            scope.$watch('recurse', getErrors);
         }
     };
+
+    // humanize words, turning:
+    //     camelCase  --> Camel Case
+    //     dash-case  --> Dash Case
+    //     snake_case --> Snake Case
+    function humanize(str) {
+        return str
+                  // turn _ and - into spaces
+                  .replace(/[-_+]/g, ' ')
+                  // put a splace before every capital letter
+                  .replace(/([A-Z])/g, ' $1')
+                  // capitalize the first letter of each word
+                  .replace(/^([a-z])|\s+([a-z])/g,
+                        function ($1) { return $1.toUpperCase(); }
+        );
+    }
+
+    function isController(obj) {
+        // if it doesn't have a $modelValue, it's
+        // an ngForm (as compared to an ngModel)
+        return !obj.hasOwnProperty('$modelValue');
+    }
+    
+    // this is where we form our message
+    function errorMessage(name, error, props, recuse) {
+        // get the nice name if they used the niceName 
+        // directive or humanize the name and call it good
+        var niceName = props.$niceName || humanize(name);
+
+        // if it doesn't have a $modelValue, it's an ngForm
+        if (isController(props)) {
+            error = 'form';
+        }
+
+        // get a message from our default set
+        var message = opts.defaultErrorMessages[error] || opts.defaultErrorMessages.fallback;
+
+        // if they used the errorMessages directive, grab that message
+        if (typeof props.$errorMessages === 'object') 
+            message = props.$errorMessages[error];
+        else if (typeof props.$errorMessages === 'string')
+            message = props.$errorMessages;
+
+        // return our nicely formatted message
+        return niceName + ' ' + message;
+    }
+
+    function crawlErrors(ctrl, recurse, errors) {
+        recurse = !!recurse;
+        if (!angular.isArray(errors)) errors = [];
+
+        angular.forEach(ctrl, function (props, name) {
+            // name has some internal properties we don't want to iterate over
+            if (name[0] === '$') return;
+
+            // if show-child-errors was true, this we 
+            // want to recurse through the child errors
+            if (recurse && isController(props)) {
+                crawlErrors(props, recurse, errors);
+                // if we're recursing, we don't want to show ngForm errors 
+                // (cuz we're showing their children ngModel errors instead)
+                return;
+            }
+
+            angular.forEach(props.$error, function (isInvalid, error) {
+                // don't need to even try and get a a message unless it's invalid
+                if (isInvalid) {
+                    errors.push(errorMessage(name, error, props, recurse));
+                }
+            });
+        });
+
+        return errors;
+    }
 }])
 
 // set a nice name to $niceName on the ngModel ctrl for later use
@@ -92,6 +120,7 @@ angular.module('FormErrors', [])
     };
 }])
 
+// ngForm version of ngModel's niceName
 .directive('formNiceName', ['$parse', function ($parse) {
     return {
         require: 'form',
@@ -122,6 +151,7 @@ angular.module('FormErrors', [])
     };
 }])
 
+// give us a way to override some options
 .provider('FormErrorsOptions', [function () {
     // list of some default error messages
     var options = {
