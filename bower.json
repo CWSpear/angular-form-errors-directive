@@ -1,11 +1,11 @@
 {
   "name": "angular-form-errors-directive",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "homepage": "https://github.com/CWSpear/angular-form-errors-directive",
   "authors": [
     "Cameron Spear <cameronspear@gmail.com>"
   ],
-  "description": "A set of directives to make it easier to display a list of form errors with an optional attribute to pass back form validity to your page's controller.",
+  "description": "A set of Angular directives to make it dead easy to display a list of form errors.",
   "main": "formErrors.js",
   "keywords": [
     "angular",
