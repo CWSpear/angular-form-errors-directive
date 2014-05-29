@@ -16,7 +16,7 @@ app.controller('MainCtrl', function ($scope) {
             $scope.message = 'Form is valid!';
         } else {
             $scope.showErrors = true;
-            $scope.message = 'Please correct these errors:';
+            $scope.message = 'Please correct the above errors.';
         }
     };
 });

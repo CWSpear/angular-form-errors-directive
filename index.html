@@ -15,28 +15,26 @@
       <form ng-class="{ 'show-errors': showErrors }" name="loginForm" ng-submit="submit()" role="form" novalidate>
         <div class="form-group">
           <label for="inputUsername" class="control-label">Username (min 5 char)</label>
-          <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username" ng-minlength="5" required ng-model="user.username">
+          <input type="text" name="username" class="form-control" id="inputUsername" ng-minlength="5" required ng-model="user.username">
         </div>
         
         <div class="form-group">
           <label for="inputPassword" class="control-label">Password (min 8 char)</label>
-          <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" ng-minlength="8" required ng-model="user.password">
+          <input type="password" name="password" class="form-control" id="inputPassword" ng-minlength="8" required ng-model="user.password">
         </div>
     
         <div ng-form form-nice-name="Embedded ngForm" name="moreInfoForm" role="form" novalidate>
           <h4>This is an embedded <code>ng-form</code></h4>
           <div class="form-group">
             <label for="inputUsername" class="control-label">First Name</label>
-            <input type="text" name="firstName" class="form-control" id="inputUsername2" placeholder="Username" required ng-model="user.firstName">
+            <input type="text" name="firstName" class="form-control" id="inputFirstName" required ng-model="user.firstName">
           </div>
           
           <div class="form-group">
             <label for="inputPassword" class="control-label">Last Name</label>
-            <input type="password" name="lastName" class="form-control" id="inputPassword2" placeholder="Password" required ng-model="user.lastName">
+            <input type="text" name="lastName" class="form-control" id="inputLastName" required ng-model="user.lastName">
           </div>
           
-          <p ng-cloak ng-show="message">{{ message }}</p>
-
           <p ng-show="showErrors && !showChildren">ngForm Errors:</p>
           <form-errors ng-hide="showChildren" class="list-unstyled"></form-errors>
         </div>
@@ -47,7 +45,8 @@
         <div class="form-group">
           <button type="submit" class="btn btn-primary">Sign in</button>
         </div>
-        
+
+        <p ng-cloak ng-show="message">{{ message }}</p>        
       </form>
 
       <label>
