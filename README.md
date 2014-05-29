@@ -156,3 +156,19 @@ If you don't want to place a `formErrors` directive in a specific `form`/`ngForm
 ```
 
 Specifying a specific form via the `form` attribute overrides inheriting the form it's embedded in.
+
+### Overriding Default Error Reasons
+
+As of `v1.2.0`, you can override the default error reasons via a provider at config:
+
+```javascript
+app.config(function (FormErrorsOptionsProvider) {
+    FormErrorsOptionsProvider.extendDefaultErrorReasons({ 
+        // It only overrides what you pass it. All 
+        // other default reasons will be left alone
+        form: 'has some errors. Please fix them.'
+    });
+})
+```
+
+That way you don't have to pass each input an override if you use it globally. This is also a great place to add validation messages for custom/nonstandard error reasons. For example, if I had a directive that checked if two fields matched, and if they didn't the `ngModelCtrl.$error.match` was set, you could pass in a default message here; something like `{ match: 'does not match.' }`.

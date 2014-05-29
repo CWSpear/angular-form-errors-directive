@@ -1,5 +1,13 @@
 var app = angular.module('app', ['FormErrors']);
 
+app.config(function (FormErrorsOptionsProvider) {
+    FormErrorsOptionsProvider.extendDefaultErrorReasons({ 
+        // It only overrides what you pass it. All 
+        // other default reasons will be left alone
+        form: 'has some errors. Please fix them.'
+    });
+})
+
 app.controller('MainCtrl', function ($scope) {
     $scope.showErrors = false;
     $scope.submit = function () {
