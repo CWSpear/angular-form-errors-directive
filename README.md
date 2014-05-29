@@ -191,6 +191,7 @@ In `v1.4.0` and on, you can also override the default messages on a per-`formErr
 
 ## Changelog
 
+- **v1.4.1** Enforce object for `errorMessages` used on `formErrors` and deprecate formNiceName in favor of niceName, which will now work on both `ngModel` *and* `form`/`ngForm` elements (just learned that you can require multiple controllers).
 - **v1.4.0** Add the ability to override the default errors used in a specific `formErrors` directive.
 - **v1.3.0** Add the ability display all the child `ngForm` errors by setting a flag.
 - **v1.2.0** Add the ability to extend/override the default error messages!
