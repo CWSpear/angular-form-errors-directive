@@ -175,8 +175,23 @@ app.config(function (FormErrorsOptionsProvider) {
 
 That way you don't have to pass each input an override if you use it globally. This is also a great place to add validation messages for custom/nonstandard error messages. For example, if I had a directive that checked if two fields matched, and if they didn't the `ngModelCtrl.$error.match` was set, you could pass in a default message here; something like `{ match: 'does not match.' }`.
 
+#### Overriding/Extending Default Error Messages Per Directive
+
+In `v1.4.0` and on, you can also override the default messages on a per-`formErrors` basis. This is done similar to how you can override each input's messages, but in this case, it *must* be an object and not a string. The `error-messages` directive on a specific input will override `error-messages` on a `formErrors` which will override the default set by the options provider:
+
+```html
+<form name="theForm">
+  <!-- form goes here -->
+
+  <!-- this will override the default error messages 
+       for all the errors in this <form-errors>  -->
+  <form-errors error-messages="{ required: 'needs to be non-blank.' }"></form-errors>
+</form>
+```
+
 ## Changelog
 
+- **v1.4.0** Add the ability to override the default errors used in a specific `formErrors` directive.
 - **v1.3.0** Add the ability display all the child `ngForm` errors by setting a flag.
 - **v1.2.0** Add the ability to extend/override the default error messages!
 - **v1.1.0** Fix issue with embedded forms and add new options for using an explicit form and displaying error messages about embedded forms themselves.

@@ -6,10 +6,16 @@ app.config(function (FormErrorsOptionsProvider) {
         // other default messages will be left alone
         form: 'has some errors. Please fix them.'
     });
-})
+});
 
 app.controller('MainCtrl', function ($scope) {
     $scope.showErrors = false;
+
+    $scope.errorMessages = {
+        required: 'é necessário.',
+        minlength: 'é demasiado curto.',
+    };
+    
     $scope.submit = function () {
         if ($scope.loginForm.$valid) {
             $scope.showErrors = false;

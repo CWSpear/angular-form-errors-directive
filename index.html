@@ -32,7 +32,7 @@
           
           <div class="form-group">
             <label for="inputPassword" class="control-label">Last Name</label>
-            <input type="text" name="lastName" class="form-control" id="inputLastName" required ng-model="user.lastName">
+            <input type="text" error-messages="errorMessages"  name="lastName" class="form-control" id="inputLastName" required ng-model="user.lastName">
           </div>
           
           <p ng-show="showErrors && !showChildren">ngForm Errors:</p>
@@ -40,7 +40,7 @@
         </div>
 
         <p ng-show="showErrors">Form Errors:</p>
-        <form-errors show-child-errors="showChildren" class="list-unstyled"></form-errors>
+        <form-errors show-child-errors="showChildren" error-messages="errorMessages" class="list-unstyled"></form-errors>
 
         <div class="form-group">
           <button type="submit" class="btn btn-primary">Sign in</button>

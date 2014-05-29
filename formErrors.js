@@ -2,7 +2,7 @@ angular.module('FormErrors', [])
 
 // just put <form-errors><form-errors> wherever you want form errors 
 // to be displayed! (well, not WHEREVER, it has to be in a form/ngForm)
-.directive('formErrors', ['$parse', 'FormErrorsOptions', function ($parse, opts) {
+.directive('formErrors', ['FormErrorsOptions', function (opts) {
     return {
         // only works if embedded in a form or an ngForm (that's in a form). 
         // It does use its closest parent that is a form OR ngForm
@@ -13,23 +13,30 @@ angular.module('FormErrors', [])
                 '</li>' +
             '</ul>',
         replace: true,
+        // this directive needs a higher priority than errorMessages directive
+        priority: 1,
         transclude: true,
         restrict: 'AE',
-        require: '?^form',
+        require: ['?^form', 'formErrors'],
         // isolated scope is required so we can embed ngForms and errors
         scope: { form: '=?', recurse: '=?showChildErrors' },
-        link: function postLink(scope, elem, attrs, ctrl) {
+        controller: [function () {}],
+        link: function postLink(scope, elem, attrs, ctrls) {
+            var ngModelCtrl = ctrls[0];
+            var formErrorsCtrl = ctrls[1];
+
             // if we don't provide
-            if (scope.form) ctrl = scope.form;
+            if (scope.form) ngModelCtrl = scope.form;
 
-            if (!ctrl) throw new Error('You must either specify a "form" attr or place formErrors directive inside a form/ngForm.');
+            if (!ngModelCtrl) throw new Error('You must either specify a "form" attr or place formErrors directive inside a form/ngForm.');
 
+            var thisCrawlErrors = angular.bind(formErrorsCtrl, crawlErrors);
             var getErrors = function () {
-                scope.errors = crawlErrors(ctrl, scope.recurse);
+                scope.errors = thisCrawlErrors(ngModelCtrl, scope.recurse);
             };
 
             // only update the list of errors if there was actually a change in $error
-            scope.$watch(function () { return ctrl.$error; }, getErrors, true);
+            scope.$watch(function () { return ngModelCtrl.$error; }, getErrors, true);
             // or if they changed the value to show child errors for some reason
             scope.$watch('recurse', getErrors);
         }
@@ -58,7 +65,7 @@ angular.module('FormErrors', [])
     }
     
     // this is where we form our message
-    function errorMessage(name, error, props, recuse) {
+    function errorMessage(name, error, props, defaultErrorMessages) {
         // get the nice name if they used the niceName 
         // directive or humanize the name and call it good
         var niceName = props.$niceName || humanize(name);
@@ -69,7 +76,7 @@ angular.module('FormErrors', [])
         }
 
         // get a message from our default set
-        var message = opts.defaultErrorMessages[error] || opts.defaultErrorMessages.fallback;
+        var message = defaultErrorMessages[error] || defaultErrorMessages.fallback;
 
         // if they used the errorMessages directive, grab that message
         if (typeof props.$errorMessages === 'object') 
@@ -82,6 +89,9 @@ angular.module('FormErrors', [])
     }
 
     function crawlErrors(ctrl, recurse, errors) {
+        // "this" will be this directive's controller
+        var errorMessages = angular.extend(opts.defaultErrorMessages, this.$errorMessages);
+
         recurse = !!recurse;
         if (!angular.isArray(errors)) errors = [];
 
@@ -101,7 +111,7 @@ angular.module('FormErrors', [])
             angular.forEach(props.$error, function (isInvalid, error) {
                 // don't need to even try and get a a message unless it's invalid
                 if (isInvalid) {
-                    errors.push(errorMessage(name, error, props, recurse));
+                    errors.push(errorMessage(name, error, props, errorMessages));
                 }
             });
         });
@@ -130,11 +140,16 @@ angular.module('FormErrors', [])
     };
 }])
 
-// set an errorMessage(s) to $errorMessages on the ngModel ctrl for later use
+// set an errorMessage(s) to $errorMessages on the formError or ngModel ctrl for later use
 .directive('errorMessages', [function () {
     return {
-        require: 'ngModel',
-        link: function (scope, elem, attrs, ctrl) {
+        require: ['?ngModel', '?formErrors'],
+        link: function errorMessagesLink(scope, elem, attrs, ctrl) {
+
+            ctrl = ctrl[0] || ctrl[1];
+
+            if (!ctrl) throw new Error('You attach errorMessages to either an ngModel or formErrors.');
+
             // attrs.errorMessages can be:
             //    1) "must be filled out."
             //    2) "'must be filled out.'"
