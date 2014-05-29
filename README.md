@@ -157,7 +157,7 @@ If you don't want to place a `formErrors` directive in a specific `form`/`ngForm
 
 Specifying a specific form via the `form` attribute overrides inheriting the form it's embedded in.
 
-### Overriding Default Error Messages
+### Overriding and Extending the Default Error Messages
 
 As of `v1.2.0`, you can override the default error messages via a provider at config:
 
@@ -172,3 +172,13 @@ app.config(function (FormErrorsOptionsProvider) {
 ```
 
 That way you don't have to pass each input an override if you use it globally. This is also a great place to add validation messages for custom/nonstandard error messages. For example, if I had a directive that checked if two fields matched, and if they didn't the `ngModelCtrl.$error.match` was set, you could pass in a default message here; something like `{ match: 'does not match.' }`.
+
+## Changelog
+
+- **v1.2.0** Add the ability to extend/override the default error messages!
+- **v1.1.0** Fix issue with embedded forms and add new options for using an explicit form and displaying error messages about embedded forms themselves.
+- **v1.0.0** Clean up some code, make compatible with Angular 1.2.x
+
+## Me
+
+Follow me on Twitter: [@CWSpear](https://twitter.com/CWSpear) or check out my [blog](http://cameronspear.com/blog/).
