@@ -123,9 +123,11 @@ angular.module('FormErrors', [])
 // set a nice name to $niceName on the ngModel ctrl for later use
 .directive('niceName', [function () {
     return {
-        require: 'ngModel',
-        link: function (scope, elem, attrs, ctrl) {
-            ctrl.$niceName = attrs.niceName;
+        require: ['?ngModel', '?form'],
+        link: function (scope, elem, attrs, ctrls) {
+            var ctrl = ctrls[0] || ctrls[1];
+
+            if (ctrl) ctrl.$niceName = attrs.niceName;
         }
     };
 }])
@@ -135,6 +137,7 @@ angular.module('FormErrors', [])
     return {
         require: 'form',
         link: function (scope, elem, attrs, ctrl) {
+            console.warn('formNiceName is deprecated. Please use niceName instead.');
             ctrl.$niceName = attrs.formNiceName;
         }
     };
@@ -144,9 +147,9 @@ angular.module('FormErrors', [])
 .directive('errorMessages', [function () {
     return {
         require: ['?ngModel', '?formErrors'],
-        link: function errorMessagesLink(scope, elem, attrs, ctrl) {
+        link: function errorMessagesLink(scope, elem, attrs, ctrls) {
 
-            ctrl = ctrl[0] || ctrl[1];
+            var ctrl = ctrls[0] || ctrls[1];
 
             if (!ctrl) throw new Error('You attach errorMessages to either an ngModel or formErrors.');
 
@@ -161,6 +164,13 @@ angular.module('FormErrors', [])
                 ctrl.$errorMessages = scope.$eval(attrs.errorMessages);
             } catch (e) {
                 ctrl.$errorMessages = attrs.errorMessages;
+            }
+
+            if (ctrls[1] && ctrl.$errorMessages) {
+                if (!angular.isObject(ctrl.$errorMessages) || angular.isArray(ctrl.$errorMessages)) {
+                    ctrl.$errorMessages = undefined;
+                    throw new Error('errorMessages defined on a formErrors must be an object.');
+                }
             }
         }
     };

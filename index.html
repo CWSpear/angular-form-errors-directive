@@ -23,11 +23,11 @@
           <input type="password" name="password" class="form-control" id="inputPassword" ng-minlength="8" required ng-model="user.password">
         </div>
     
-        <div ng-form form-nice-name="Embedded ngForm" name="moreInfoForm" role="form" novalidate>
+        <div ng-form nice-name="Embedded ngForm" name="moreInfoForm" role="form" novalidate>
           <h4>This is an embedded <code>ng-form</code></h4>
           <div class="form-group">
             <label for="inputUsername" class="control-label">First Name</label>
-            <input type="text" name="firstName" class="form-control" id="inputFirstName" required ng-model="user.firstName">
+            <input nice-name="1st Name" type="text" name="firstName" class="form-control" id="inputFirstName" required ng-model="user.firstName">
           </div>
           
           <div class="form-group">
