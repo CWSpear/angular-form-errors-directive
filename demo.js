@@ -1,9 +1,9 @@
 var app = angular.module('app', ['FormErrors']);
 
 app.config(function (FormErrorsOptionsProvider) {
-    FormErrorsOptionsProvider.extendDefaultErrorReasons({ 
+    FormErrorsOptionsProvider.extendDefaultErrorMessages({ 
         // It only overrides what you pass it. All 
-        // other default reasons will be left alone
+        // other default messages will be left alone
         form: 'has some errors. Please fix them.'
     });
 })

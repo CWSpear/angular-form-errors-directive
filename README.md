@@ -2,13 +2,13 @@
 
 A set of directives to make it easier to display a list of form errors with an optional attribute to pass back form validity to your page's controller.
 
-#### Why?
+### Why?
 
 Because it's a lot of work to do all those inline errors and to do markup for *every single* error that each input can violate. And maybe it doesn't fit in your design to do inline errors, etc, etc.
 
 Why not just do everything (list *all* your form's errors, with messages) with **just a single element?**
 
-### Installation
+## Installation
 
 Install with [Bower](http://bower.io/):
 
@@ -30,7 +30,7 @@ Include the `FormErrors` module in your module:
 angular.module('app', ['FormErrors']);
 ```
 
-### Usage
+## Usage
 
 For basic usage, all that's needed is to place a single element inside a `form` element:
 
@@ -44,7 +44,7 @@ For basic usage, all that's needed is to place a single element inside a `form` 
 
 **NOTE:** For this validation to work, you need a `name` attribute on your `form` element any form elements (i.e. `input`, `select`, etc) inside the form.
 
-### Example
+## Example
 
 HTML markup:
 
@@ -92,16 +92,16 @@ If the fields are empty (which are both required), then `<form-errors></form-err
 
 Demo: http://cwspear.github.io/angular-form-errors-directive
 
-### The Finer Points
+## The Finer Points
 
 Where does it get the name that's invalid and how does it know what message to display? The name comes from the input's name attribute (attached in the form controller).
 
 It does some automagic transformations to "humanize" it. For example, `firstName` gets turned into `First Name`.
 
-For the error message, I have a few default error reasons that correspond to keys that Angular sets. Here's the said list:
+For the error message, I have a few default error messages that correspond to keys that Angular sets. Here's the said list:
 
 ```javascript
-defaultErrorReasons = {
+defaultErrorMessages = {
     required  : 'is required.',
     minlength : 'is too short.',
     maxlength : 'is too long.',
@@ -115,7 +115,7 @@ defaultErrorReasons = {
 }
 ```
 
-#### Custom Names and Messages
+### Custom Names and Messages
 
 Let's say you have this `input`:
 
@@ -125,7 +125,7 @@ Let's say you have this `input`:
 
 and let's say you want to say more than **Website Url is not a valid URL.** You can add a `nice-name` attribute to your `input` elements and it uses that name instead. i.e. `nice-name="Website URL"`
 
-If you want a custom message, you can also add an `error-messages` attribute. You can either set just a string, and *all* errors will use that message, or you can use an object to set individual errors (and if one isn't found, it will fall back to a default error reason).
+If you want a custom message, you can also add an `error-messages` attribute. You can either set just a string, and *all* errors will use that message, or you can use an object to set individual errors (and if one isn't found, it will fall back to a default error message).
 
 So maybe this is our enhanced markup we use:
 
@@ -139,11 +139,11 @@ If the field is empty, it will fallback to **Website URL is required.** If the U
 
 You can also pass the `error-messages` attribute a string and it will use that for every error. A nice shortcut when you don't need to specify every kind of different error.
 
-#### Embedded Forms
+### Embedded Forms
 
 You can also use this to get the errors of an embedded `ngForm`. If you place an `formErrors` directive inside an `ngForm`, it will just display the errors for the `ngForm`. On the parent `form`, it won't display the specific errors of the `ngForm`, but *will* tell you that the child form has errors. You can change the child form's name similarly to the `niceName` directive on inputs, with `formNiceName` directive on the `ngForm`.
 
-#### Explicit Form
+### Explicit Form
 
 If you don't want to place a `formErrors` directive in a specific `form`/`ngForm` (or if you want to put it in a form but show errors to a different form), you can specify a specific `form` via an attribute:
 
@@ -157,18 +157,18 @@ If you don't want to place a `formErrors` directive in a specific `form`/`ngForm
 
 Specifying a specific form via the `form` attribute overrides inheriting the form it's embedded in.
 
-### Overriding Default Error Reasons
+### Overriding Default Error Messages
 
-As of `v1.2.0`, you can override the default error reasons via a provider at config:
+As of `v1.2.0`, you can override the default error messages via a provider at config:
 
 ```javascript
 app.config(function (FormErrorsOptionsProvider) {
-    FormErrorsOptionsProvider.extendDefaultErrorReasons({ 
+    FormErrorsOptionsProvider.extendDefaultErrorMessages({ 
         // It only overrides what you pass it. All 
-        // other default reasons will be left alone
+        // other default messages will be left alone
         form: 'has some errors. Please fix them.'
     });
 })
 ```
 
-That way you don't have to pass each input an override if you use it globally. This is also a great place to add validation messages for custom/nonstandard error reasons. For example, if I had a directive that checked if two fields matched, and if they didn't the `ngModelCtrl.$error.match` was set, you could pass in a default message here; something like `{ match: 'does not match.' }`.
+That way you don't have to pass each input an override if you use it globally. This is also a great place to add validation messages for custom/nonstandard error messages. For example, if I had a directive that checked if two fields matched, and if they didn't the `ngModelCtrl.$error.match` was set, you could pass in a default message here; something like `{ match: 'does not match.' }`.

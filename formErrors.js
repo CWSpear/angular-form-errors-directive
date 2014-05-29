@@ -50,17 +50,17 @@ angular.module('FormErrors', [])
                     error = 'form';
                 }
 
-                // get a reason from our default set
-                var reason = opts.defaultErrorReasons[error] || opts.defaultErrorReasons.fallback;
+                // get a message from our default set
+                var message = opts.defaultErrorMessages[error] || opts.defaultErrorMessages.fallback;
 
                 // if they used the errorMessages directive, grab that message
                 if (typeof props.$errorMessages === 'object') 
-                    reason = props.$errorMessages[error];
+                    message = props.$errorMessages[error];
                 else if (typeof props.$errorMessages === 'string')
-                    reason = props.$errorMessages;
+                    message = props.$errorMessages;
 
                 // return our nicely formatted message
-                return niceName + ' ' + reason;
+                return niceName + ' ' + message;
             };
 
             // only update the list of errors if there was actually a change in $error
@@ -112,7 +112,7 @@ angular.module('FormErrors', [])
             //    3) "{ required: 'must be filled out.' }"
             // 1 & 2) will be the message for any kind of error
             // 3) allows you to specify each error (it will use the
-            // defaultErrorReasons if you don't specify a specific error)
+            // defaultErrorMessages if you don't specify a specific error)
             try {
                 ctrl.$errorMessages = scope.$eval(attrs.errorMessages);
             } catch (e) {
@@ -123,9 +123,9 @@ angular.module('FormErrors', [])
 }])
 
 .provider('FormErrorsOptions', [function () {
-    // list of some default error reasons
+    // list of some default error messages
     var options = {
-        defaultErrorReasons: {
+        defaultErrorMessages: {
             required  : 'is required.',
             minlength : 'is too short.',
             maxlength : 'is too long.',
@@ -139,8 +139,8 @@ angular.module('FormErrors', [])
         }
     };
 
-    this.extendDefaultErrorReasons = function (reasons) {
-        options.defaultErrorReasons = angular.extend(options.defaultErrorReasons, reasons);
+    this.extendDefaultErrorMessages = function (messages) {
+        options.defaultErrorMessages = angular.extend(options.defaultErrorMessages, messages);
     };
 
     this.$get = function () {
