@@ -2,7 +2,7 @@
     color: #c8272a;
 }
 
-.show-errors .ng-invalid {
+.show-errors input.ng-invalid {
     border: 1px solid #c8272a;
 }
 
@@ -24,4 +24,11 @@ body {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
+}
+
+[ng-form] {
+    border: 1px solid #ededed;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
 }

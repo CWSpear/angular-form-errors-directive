@@ -2,11 +2,10 @@ angular.module('FormErrors', [])
 
 // just put <form-errors><form-errors> wherever you want form errors 
 // to be displayed! (well, not WHEREVER, it has to be in a form/ngForm)
-.directive('formErrors', [function () {
+.directive('formErrors', ['$parse', function ($parse) {
     return {
         // only works if embedded in a form or an ngForm (that's in a form). 
         // It does use its closest parent that is a form OR ngForm
-        require: '^form',
         template:
             '<ul class="form-errors">' +
                 '<li class="form-error" ng-repeat="error in errors">' +
@@ -16,7 +15,15 @@ angular.module('FormErrors', [])
         replace: true,
         transclude: true,
         restrict: 'AE',
+        require: '?^form',
+        // isolated scope is required so we can embed ngForms and errors
+        scope: { form: '=?form' },
         link: function postLink(scope, elem, attrs, ctrl) {
+            // if we don't provide
+            if (scope.form) ctrl = scope.form;
+
+            if (!ctrl) throw new Error('You must either specify a "form" attr or place formErrors directive inside a form/ngForm.');
+
             // list of some default error reasons
             var defaultErrorReasons = {
                     required  : 'is required.',
@@ -26,6 +33,7 @@ angular.module('FormErrors', [])
                     pattern   : 'does not match the expected pattern.',
                     number    : 'is not a number.',
                     url       : 'is not a valid URL.',
+                    form      : 'has errors.',
 
                     fallback  : 'is invalid.'
                 },
@@ -49,6 +57,11 @@ angular.module('FormErrors', [])
                     // get the nice name if they used the niceName 
                     // directive or humanize the name and call it good
                     var niceName = props.$niceName || humanize(name);
+
+                    // if it doesn't have a $modelValue, it's an ngForm
+                    if (!props.hasOwnProperty('$modelValue')) {
+                        error = 'form';
+                    }
 
                     // get a reason from our default set
                     var reason = defaultErrorReasons[error] || defaultErrorReasons.fallback;
@@ -88,6 +101,15 @@ angular.module('FormErrors', [])
         require: 'ngModel',
         link: function (scope, elem, attrs, ctrl) {
             ctrl.$niceName = attrs.niceName;
+        }
+    };
+}])
+
+.directive('formNiceName', ['$parse', function ($parse) {
+    return {
+        require: 'form',
+        link: function (scope, elem, attrs, ctrl) {
+            ctrl.$niceName = attrs.formNiceName;
         }
     };
 }])

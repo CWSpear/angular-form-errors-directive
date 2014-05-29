@@ -109,6 +109,7 @@ defaultErrorReasons = {
     pattern   : 'does not match the expected pattern.',
     number    : 'is not a number.',
     url       : 'is not a valid URL.',
+    form      : 'has errors.',
 
     fallback  : 'is invalid.'
 }
@@ -137,3 +138,21 @@ So maybe this is our enhanced markup we use:
 If the field is empty, it will fallback to **Website URL is required.** If the URL is not valid, it will display **Website URL is not a valid URL. Don't forget the http:// at the start**
 
 You can also pass the `error-messages` attribute a string and it will use that for every error. A nice shortcut when you don't need to specify every kind of different error.
+
+#### Embedded Forms
+
+You can also use this to get the errors of an embedded `ngForm`. If you place an `formErrors` directive inside an `ngForm`, it will just display the errors for the `ngForm`. On the parent `form`, it won't display the specific errors of the `ngForm`, but *will* tell you that the child form has errors. You can change the child form's name similarly to the `niceName` directive on inputs, with `formNiceName` directive on the `ngForm`.
+
+#### Explicit From
+
+If you don't want to place a `formErrors` directive in a specific `form`/`ngForm` (or if you want to put it in a form but show errors to a different form), you can specify a specific `form` via an attribute:
+
+```html
+<form name="theForm">
+  <!-- form goes here -->
+</form>
+<!-- still works outside of the <form> tag cuz we specify a specific form -->
+<form-errors form="theForm"></form-errors>
+```
+
+Specifying a specific form via the `form` attribute overrides inheriting the form it's embedded in.

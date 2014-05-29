@@ -22,13 +22,32 @@
           <label for="inputPassword" class="control-label">Password (min 8 char)</label>
           <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" ng-minlength="8" required ng-model="user.password">
         </div>
-        
+    
+        <div ng-form form-nice-name="Embedded ngForm" name="moreInfoForm" role="form" novalidate>
+          <h4>This is an embedded <code>ng-form</code></h4>
+          <div class="form-group">
+            <label for="inputUsername" class="control-label">First Name</label>
+            <input type="text" name="firstName" class="form-control" id="inputUsername2" placeholder="Username" required ng-model="user.firstName">
+          </div>
+          
+          <div class="form-group">
+            <label for="inputPassword" class="control-label">Last Name</label>
+            <input type="password" name="lastName" class="form-control" id="inputPassword2" placeholder="Password" required ng-model="user.lastName">
+          </div>
+          
+          <p ng-cloak ng-show="message">{{ message }}</p>
+
+          <p ng-show="showErrors">ngForm Errors:</p>
+          <form-errors class="list-unstyled"></form-errors>
+        </div>
+
+        <p ng-show="showErrors">Form Errors:</p>
+        <form-errors class="list-unstyled"></form-errors>
+
         <div class="form-group">
           <button type="submit" class="btn btn-primary">Sign in</button>
         </div>
         
-        <p ng-cloak ng-show="message">{{ message }}</p>
-        <form-errors class="list-unstyled"></form-errors>
       </form>
     </div>
   </div>
