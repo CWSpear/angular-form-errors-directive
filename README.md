@@ -143,7 +143,7 @@ You can also pass the `error-messages` attribute a string and it will use that f
 
 You can also use this to get the errors of an embedded `ngForm`. If you place an `formErrors` directive inside an `ngForm`, it will just display the errors for the `ngForm`. On the parent `form`, it won't display the specific errors of the `ngForm`, but *will* tell you that the child form has errors. You can change the child form's name similarly to the `niceName` directive on inputs, with `formNiceName` directive on the `ngForm`.
 
-#### Explicit From
+#### Explicit Form
 
 If you don't want to place a `formErrors` directive in a specific `form`/`ngForm` (or if you want to put it in a form but show errors to a different form), you can specify a specific `form` via an attribute:
 
