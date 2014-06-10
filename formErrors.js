@@ -15,7 +15,6 @@ angular.module('FormErrors', [])
         replace: true,
         // this directive needs a higher priority than errorMessages directive
         priority: 1,
-        transclude: true,
         restrict: 'AE',
         require: ['?^form', 'formErrors'],
         // isolated scope is required so we can embed ngForms and errors
