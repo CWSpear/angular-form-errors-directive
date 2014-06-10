@@ -191,6 +191,7 @@ In `v1.4.0` and on, you can also override the default messages on a per-`formErr
 
 ## Changelog
 
+- **v1.4.2** Remove `transclude: true` option from the directive. Transclude is no long needed/used. I think it MAY have been back in the pre-Angular 1.2 days, but not 100% sure. Either way, it's totally unecessary now. This should not affect anyone's code (as I think this option is ignored unless you have an `ng-transclude` somewhere in the template, which it's not).
 - **v1.4.1** Enforce object for `errorMessages` used on `formErrors` and deprecate formNiceName in favor of niceName, which will now work on both `ngModel` *and* `form`/`ngForm` elements (just learned that you can require multiple controllers).
 - **v1.4.0** Add the ability to override the default errors used in a specific `formErrors` directive.
 - **v1.3.0** Add the ability display all the child `ngForm` errors by setting a flag.
