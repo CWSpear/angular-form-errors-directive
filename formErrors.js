@@ -1,17 +1,21 @@
 angular.module('FormErrors', [])
 
-// just put <form-errors><form-errors> wherever you want form errors 
+// just put <form-errors><form-errors> wherever you want form errors
 // to be displayed! (well, not WHEREVER, it has to be in a form/ngForm)
 .directive('formErrors', ['FormErrorsOptions', function (opts) {
     return {
-        // only works if embedded in a form or an ngForm (that's in a form). 
+        // only works if embedded in a form or an ngForm (that's in a form).
         // It does use its closest parent that is a form OR ngForm
-        template:
-            '<ul class="form-errors">' +
-                '<li class="form-error" ng-repeat="error in errors">' +
-                    '{{ error }}' +
-                '</li>' +
-            '</ul>',
+        template: function (elem) {
+  				if (!angular.isUndefined(elem.attr('errors-tmpl'))) {
+  					return '<div ng-include src="\'' + elem.attr('errors-tmpl') + '\'"></div>';
+  				}
+  				return '<ul class="form-errors">' +
+  					'<li class="form-error" ng-repeat="error in errors">' +
+  					'{{ error }}' +
+  					'</li>' +
+  					'</ul>';
+  			},
         replace: true,
         // this directive needs a higher priority than errorMessages directive
         priority: 1,
@@ -62,10 +66,10 @@ angular.module('FormErrors', [])
         // an ngForm (as compared to an ngModel)
         return !obj.hasOwnProperty('$modelValue');
     }
-    
+
     // this is where we form our message
     function errorMessage(name, error, props, defaultErrorMessages) {
-        // get the nice name if they used the niceName 
+        // get the nice name if they used the niceName
         // directive or humanize the name and call it good
         var niceName = props.$niceName || humanize(name);
 
@@ -78,7 +82,7 @@ angular.module('FormErrors', [])
         var message = defaultErrorMessages[error] || defaultErrorMessages.fallback;
 
         // if they used the errorMessages directive, grab that message
-        if (typeof props.$errorMessages === 'object') 
+        if (typeof props.$errorMessages === 'object')
             message = props.$errorMessages[error];
         else if (typeof props.$errorMessages === 'string')
             message = props.$errorMessages;
@@ -98,11 +102,11 @@ angular.module('FormErrors', [])
             // name has some internal properties we don't want to iterate over
             if (name[0] === '$') return;
 
-            // if show-child-errors was true, this we 
+            // if show-child-errors was true, this we
             // want to recurse through the child errors
             if (recurse && isController(props)) {
                 crawlErrors(props, recurse, errors);
-                // if we're recursing, we don't want to show ngForm errors 
+                // if we're recursing, we don't want to show ngForm errors
                 // (cuz we're showing their children ngModel errors instead)
                 return;
             }
