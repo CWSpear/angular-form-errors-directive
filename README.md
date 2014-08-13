@@ -190,7 +190,7 @@ In `v1.4.0` and on, you can also override the default messages on a per-`formErr
 ```
 #### Using a template for displaying the error messages
 
-In `v1.4.3` and on, you can use your template for showing the error messages. All you need to do is to add a `errors-tmpl` attribute with the value of the templateUrl: `errors-tmpl="formErrors.html"`. The template will be attached with the `ng-include` directive. In the template you will access the errors through the `errors` array (`['Username is required.','Username is too short.', ...]`).
+In `v1.4.3` and on, you can use your template for showing the error messages. All you need to do is to add a `errors-tmpl` attribute with the value of the templateUrl: `errors-tmpl="formErrors.html"`. The template will be attached with the `ng-include` directive. In the template you will access the errors through the `errors` array: (`[ Error ('Username is required.'), Error ('Username is too short.'), ...]`).
 
 ```html
 <form name="theForm">
@@ -206,7 +206,7 @@ By default the template used to display the errors looks like this:
 ```html
 <ul class="form-errors">
   <li class="form-error" ng-repeat="error in errors">
-    {{ error }}
+    {{ error.message }}
   </li>
 </ul>
 ```

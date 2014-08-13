@@ -12,7 +12,7 @@ angular.module('FormErrors', [])
   				}
   				return '<ul class="form-errors">' +
   					'<li class="form-error" ng-repeat="error in errors">' +
-  					'{{ error }}' +
+  					'{{ error.message }}' +
   					'</li>' +
   					'</ul>';
   			},
@@ -114,7 +114,7 @@ angular.module('FormErrors', [])
             angular.forEach(props.$error, function (isInvalid, error) {
                 // don't need to even try and get a a message unless it's invalid
                 if (isInvalid) {
-                    errors.push(errorMessage(name, error, props, errorMessages));
+                    errors.push( new Error (errorMessage(name, error, props, errorMessages)));
                 }
             });
         });

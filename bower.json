@@ -1,9 +1,10 @@
 {
-  "name": "angular-form-errors-directive",
+  "name": "angular-form-errors-razv",
   "version": "1.4.3",
-  "homepage": "https://github.com/CWSpear/angular-form-errors-directive",
+  "homepage": "https://github.com/blooderking/angular-form-errors-directive.git",
   "authors": [
-    "Cameron Spear <cameronspear@gmail.com>"
+    "Cameron Spear <cameronspear@gmail.com>",
+    "Razvan Laurus <razvan.laurus@gmail.com>"
   ],
   "description": "A set of Angular directives to make it dead easy to display a list of form errors.",
   "main": "formErrors.js",
