@@ -36,7 +36,7 @@
           </div>
           
           <p ng-show="showErrors && !showChildren">ngForm Errors:</p>
-          <form-errors ng-hide="showChildren" class="list-unstyled"></form-errors>
+          <form-errors errors-tmpl="errors-tmpl.html" ng-hide="showChildren" class="list-unstyled"></form-errors>
         </div>
 
         <p ng-show="showErrors">Form Errors:</p>

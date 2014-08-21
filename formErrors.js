@@ -7,15 +7,16 @@ angular.module('FormErrors', [])
         // only works if embedded in a form or an ngForm (that's in a form).
         // It does use its closest parent that is a form OR ngForm
         template: function (elem) {
-  				if (!angular.isUndefined(elem.attr('errors-tmpl'))) {
-  					return '<div ng-include src="\'' + elem.attr('errors-tmpl') + '\'"></div>';
-  				}
-  				return '<ul class="form-errors">' +
-  					'<li class="form-error" ng-repeat="error in errors">' +
-  					'{{ error.message }}' +
-  					'</li>' +
-  					'</ul>';
-  			},
+            if (!angular.isUndefined(elem.attr('errors-tmpl'))) {
+                return '<div ng-include src="\'' + elem.attr('errors-tmpl') + '\'"></div>';
+            }
+            return '' +
+                '<ul class="form-errors">' +
+                    '<li class="form-error" ng-repeat="error in errors">' +
+                        '{{ error.message }}' +
+                    '</li>' +
+                '</ul>';
+        },
         replace: true,
         // this directive needs a higher priority than errorMessages directive
         priority: 1,
@@ -23,6 +24,8 @@ angular.module('FormErrors', [])
         require: ['?^form', 'formErrors'],
         // isolated scope is required so we can embed ngForms and errors
         scope: { form: '=?', recurse: '=?showChildErrors' },
+        // the controller doesn't need to do anything here, it just 
+        // needs to exist so that other directives can do stuff with it
         controller: [function () {}],
         link: function postLink(scope, elem, attrs, ctrls) {
             var ngModelCtrl = ctrls[0];
