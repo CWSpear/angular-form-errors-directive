@@ -54,16 +54,16 @@ HTML markup:
     <label for="inputUsername" class="control-label">Username (min 5 char)</label>
     <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username" ng-minlength="5" required ng-model="user.username">
   </div>
-  
+
   <div class="form-group">
     <label for="inputPassword" class="control-label">Password (min 8 char)</label>
     <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" ng-minlength="8" required ng-model="user.password">
   </div>
-  
+
   <div class="form-group">
     <button type="submit" class="btn btn-primary">Sign in</button>
   </div>
-  
+
   <p>{{ message }}</p>
   <form-errors class="list-unstyled"></form-errors>
 </form>
@@ -102,16 +102,16 @@ For the error message, I have a few default error messages that correspond to ke
 
 ```javascript
 defaultErrorMessages = {
-    required  : 'is required.',
-    minlength : 'is too short.',
-    maxlength : 'is too long.',
-    email     : 'is not a valid email address.',
-    pattern   : 'does not match the expected pattern.',
-    number    : 'is not a number.',
-    url       : 'is not a valid URL.',
-    form      : 'has errors.',
+  required  : 'is required.',
+  minlength : 'is too short.',
+  maxlength : 'is too long.',
+  email     : 'is not a valid email address.',
+  pattern   : 'does not match the expected pattern.',
+  number    : 'is not a number.',
+  url       : 'is not a valid URL.',
+  form      : 'has errors.',
 
-    fallback  : 'is invalid.'
+  fallback  : 'is invalid.'
 }
 ```
 
@@ -130,9 +130,9 @@ If you want a custom message, you can also add an `error-messages` attribute. Yo
 So maybe this is our enhanced markup we use:
 
 ```html
-<input type="url" name="website-url" ng-model="websiteUrl" 
-    required nice-name="Website URL" 
-    error-messages="{ url: 'is not a valid URL. Don\'t forget the http:// at the start' }">
+<input type="url" name="website-url" ng-model="websiteUrl"
+  required nice-name="Website URL"
+  error-messages="{ url: 'is not a valid URL. Don\'t forget the http:// at the start' }">
 ```
 
 If the field is empty, it will fallback to **Website URL is required.** If the URL is not valid, it will display **Website URL is not a valid URL. Don't forget the http:// at the start**
@@ -165,11 +165,11 @@ As of `v1.2.0`, you can override the default error messages via a provider at co
 
 ```javascript
 app.config(function (FormErrorsOptionsProvider) {
-    FormErrorsOptionsProvider.extendDefaultErrorMessages({ 
-        // It only overrides what you pass it. All 
-        // other default messages will be left alone
-        form: 'has some errors. Please fix them.'
-    });
+  FormErrorsOptionsProvider.extendDefaultErrorMessages({
+    // It only overrides what you pass it. All
+    // other default messages will be left alone
+    form: 'has some errors. Please fix them.'
+  });
 })
 ```
 
@@ -183,14 +183,35 @@ In `v1.4.0` and on, you can also override the default messages on a per-`formErr
 <form name="theForm">
   <!-- form goes here -->
 
-  <!-- this will override the default error messages 
+  <!-- this will override the default error messages
        for all the errors in this <form-errors>  -->
   <form-errors error-messages="{ required: 'needs to be non-blank.' }"></form-errors>
 </form>
 ```
+#### Using a custom template for displaying the error messages
 
+With `v1.5.0` and on, you can use your template for showing the error messages. All you need to do is to add a `errors-tmpl` attribute with the value of the templateUrl: `errors-tmpl="formErrors.html"`. The template will be attached with the `ng-include` directive. In the template you will access the errors through the `errors` array: (`[ Error ('Username is required.'), Error ('Username is too short.'), ...]`).
+
+```html
+<form name="theForm">
+  <!-- form goes here -->
+
+  <!-- you can override your the template used via errors-tmpl -->
+  <form-errors errors-tmpl="errors-tmpl.html"></form-errors>
+</form>
+```
+By default the template used to display the errors looks like this:
+
+```html
+<ul class="form-errors">
+  <li class="form-error" ng-repeat="error in errors">
+    {{ error.message }}
+  </li>
+</ul>
+```
 ## Changelog
 
+- **v1.5.0** Added option for user defined templates with `errors-tmpl` attribute.
 - **v1.4.2** Remove `transclude: true` option from the directive. Transclude is no long needed/used. I think it MAY have been back in the pre-Angular 1.2 days, but not 100% sure. Either way, it's totally unecessary now. This should not affect anyone's code (as I think this option is ignored unless you have an `ng-transclude` somewhere in the template, which it's not).
 - **v1.4.1** Enforce object for `errorMessages` used on `formErrors` and deprecate formNiceName in favor of niceName, which will now work on both `ngModel` *and* `form`/`ngForm` elements (just learned that you can require multiple controllers).
 - **v1.4.0** Add the ability to override the default errors used in a specific `formErrors` directive.
@@ -198,6 +219,10 @@ In `v1.4.0` and on, you can also override the default messages on a per-`formErr
 - **v1.2.0** Add the ability to extend/override the default error messages!
 - **v1.1.0** Fix issue with embedded forms and add new options for using an explicit form and displaying error messages about embedded forms themselves.
 - **v1.0.0** Clean up some code, make compatible with Angular 1.2.x
+
+## Contributors
+
+- Razvan Laurus <razvan.laurus@gmail.com> - Added custom template functionality
 
 ## Me
 

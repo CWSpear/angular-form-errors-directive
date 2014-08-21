@@ -12,8 +12,8 @@ app.controller('MainCtrl', function ($scope) {
     $scope.showErrors = false;
 
     $scope.errorMessages = {
-        required: 'é necessário.',
-        minlength: 'é demasiado curto.',
+        required: 'is very much required.',
+        minlength: 'is waaaaay too short.',
     };
     
     $scope.submit = function () {
