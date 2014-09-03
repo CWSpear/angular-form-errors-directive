@@ -211,6 +211,7 @@ By default the template used to display the errors looks like this:
 ```
 ## Changelog
 
+- **v1.5.1** Fix an issue where it wouldn't work if you had duplicate error messages.
 - **v1.5.0** Added option for user defined templates with `errors-tmpl` attribute.
 - **v1.4.2** Remove `transclude: true` option from the directive. Transclude is no long needed/used. I think it MAY have been back in the pre-Angular 1.2 days, but not 100% sure. Either way, it's totally unecessary now. This should not affect anyone's code (as I think this option is ignored unless you have an `ng-transclude` somewhere in the template, which it's not).
 - **v1.4.1** Enforce object for `errorMessages` used on `formErrors` and deprecate formNiceName in favor of niceName, which will now work on both `ngModel` *and* `form`/`ngForm` elements (just learned that you can require multiple controllers).
