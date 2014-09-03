@@ -12,7 +12,7 @@ angular.module('FormErrors', [])
             }
             return '' +
                 '<ul class="form-errors">' +
-                    '<li class="form-error" ng-repeat="error in errors">' +
+                    '<li class="form-error" ng-repeat="error in errors track by $index">' +
                         '{{ error.message }}' +
                     '</li>' +
                 '</ul>';
