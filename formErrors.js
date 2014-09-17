@@ -11,7 +11,7 @@ angular.module('FormErrors', [])
                 return '<div ng-include src="\'' + elem.attr('errors-tmpl') + '\'"></div>';
             }
             return '' +
-                '<ul class="form-errors" ng-show="errors.length">' +
+                '<ul class="form-errors">' +
                     '<li class="form-error" ng-repeat="error in errors track by $index">' +
                         '{{ error.message }}' +
                     '</li>' +
