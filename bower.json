@@ -1,12 +1,15 @@
 {
   "name": "angular-form-errors-directive",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "homepage": "https://github.com/CWSpear/angular-form-errors-directive",
   "authors": [
     "Cameron Spear <cameronspear@gmail.com>"
   ],
   "description": "A set of Angular directives to make it dead easy to display a list of form errors.",
   "main": "formErrors.js",
+  "dependencies": {
+	"angular": "^1.2.0"
+  },
   "keywords": [
     "angular",
     "forms",

@@ -211,6 +211,7 @@ By default the template used to display the errors looks like this:
 ```
 ## Changelog
 
+- **v1.5.4** Declare depenency on Angular `^1.2.0` in `bower.json`.
 - **v1.5.3** Revert change in **v1.5.2** because it broke if you tried to add `ng-show` to the directive. A better fix is forthcoming.
 - **v1.5.2** Hide the entire directive if there are no errors.
 - **v1.5.1** Fix an issue where it wouldn't work if you had duplicate error messages.
